@@ -10,6 +10,22 @@ I wanted to test bubbletea with ebpf BPF_PROG_CGROUP_SOCK_ADDR program type to g
 - check BPF_PROG_CGROUP_SOCK_ADDR program type constraints and behavior.
 It took me one day to write this program, so it looks how it looks.
 
+# Build and Run
+Static:
+```bash
+make static
+```
+Dynamic:
+```bash
+make dynamic
+```
+Run:
+```bash
+cd build
+sudo ./neck 
+``
+
+
 # Conclustions
 - bubbletea is a great tool for writing terminal applications.
 - BPF_PROG_CGROUP_SOCK_ADDR program type is good choice for egress traffic filtering if you do not need to filter at the package level and do not have to kill running processes.
