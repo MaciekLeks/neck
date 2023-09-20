@@ -24,7 +24,6 @@ cd build
 sudo ./neck-cli-<static|dynamic>
 ```
 
-
 # Conclustions
 - Bubbletea is a great tool for writing terminal applications. I'll definitely stick to it.
 - BPF_PROG_TYPE_CGROUP_SOCK_ADDR program type is good choice for egress traffic filtering if you do not need to filter at the package level and do not have to kill running processes.
