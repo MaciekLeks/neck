@@ -19,11 +19,11 @@ Dynamic:
 ```bash
 make dynamic
 ```
-Run:
+Run from the build directory:
 ```bash
 cd build
 sudo ./neck 
-``
+```
 
 
 # Conclustions
