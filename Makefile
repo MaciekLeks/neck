@@ -7,7 +7,7 @@ CC = clang
 GO = /usr/local/go/bin/go
 MAKE=/usr/bin/make
 
-MAIN = task
+MAIN = neck
 
 TAG ?= latest
 BASE_TAG ?= latest
