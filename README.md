@@ -21,7 +21,7 @@ make dynamic
 Run from the build directory:
 ```bash
 cd build
-sudo ./neck 
+sudo ./neck-cli-<static|dynamic>
 ```
 
 
