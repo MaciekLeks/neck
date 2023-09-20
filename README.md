@@ -1,5 +1,7 @@
 # Info
-neck - neat eye-catching cute killer 
+Neck stands for 'Neat, Eye-catching, Cute, Killer', although it's 
+not actually a 'killer'. Rather, it's a cute tool designed 
+to block egress traffic (acting as a policer) based on a given CIDR with a nice UI.
 
 <img width="800" src="./screenshot.png" />
 
