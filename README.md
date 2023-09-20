@@ -3,7 +3,6 @@ neck - neat eye-catching cute killer
 
 <img width="800" src="./screenshot.png" />
 
-
 # Why
 I wanted to test bubbletea with ebpf BPF_PROG_CGROUP_SOCK_ADDR program type to get:
 - knowledges about bubbletea,
