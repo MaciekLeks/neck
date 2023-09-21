@@ -2,14 +2,21 @@ package bpf
 
 import (
 	"encoding/binary"
-	"fmt"
-	"github.com/MaciekLeks/ebpf-go-template-sock-addr-own-prompt/pkg/common"
+	"github.com/MaciekLeks/neck/pkg/common"
 	bpf "github.com/aquasecurity/libbpfgo"
 	"github.com/rs/zerolog/log"
 	"net"
 	"sync"
 	"unsafe"
 )
+
+const (
+	objFile = "neck.bpf.o"
+)
+
+type Bpfy struct {
+	bpfModule *bpf.Module
+}
 
 func updateACLValueNew(acl *bpf.BPFMap, ikey common.ILpmKeyHolder, val common.LpmVal) error {
 	upKey := ikey.GetPointer()
@@ -23,57 +30,59 @@ func updateACLValueNew(acl *bpf.BPFMap, ikey common.ILpmKeyHolder, val common.Lp
 	return nil
 }
 
-//func unmarshalValue(bytes []byte) common.LpmVal {
-//	return common.LpmVal{
-//		Data: binary.LittleEndian.Uint64(bytes[0:8]),
-//	}
-//}
+func LoadAndAttachProgram() (*Bpfy, error) {
+	var err error
+	logger := log.Logger
+	b := &Bpfy{}
 
-func Run(wg *sync.WaitGroup, stop chan struct{}, cidrReqRes <-chan common.CidrRequestResponse, rawEvents chan<- common.RawEvent) error {
+	b.bpfModule, err = bpf.NewModuleFromFile(objFile)
+	if err != nil {
+		logger.Error().Msg("can't open ebpf object file")
+		return nil, err
+	}
+
+	logger.Info().Msg("Loading object file")
+	b.bpfModule.BPFLoadObject()
+
+	prog, err := b.bpfModule.GetProgram("cgroup_sock_prog")
+	if err != nil {
+		logger.Error().Msgf("can't get program: %s", err)
+		return nil, err
+	}
+
+	_, err = prog.AttachCgroup("/sys/fs/cgroup")
+	if err != nil {
+		logger.Error().Msgf("can't attach kprobe: %s", err)
+		defer b.bpfModule.Close()
+		return nil, err
+	}
+	return b, nil
+}
+
+func (b *Bpfy) Run(wg *sync.WaitGroup, stop <-chan struct{}, cidrReqRes <-chan common.CidrRequestResponse, rawEvents chan<- common.RawEvent) error {
 	wg.Add(1)
-	var retErr error
+	logger := log.Logger
+
+	events := make(chan []byte)
+	rb, err := b.bpfModule.InitRingBuf("events", events)
+	if err != nil {
+		logger.Error().Msgf("can't init ring buffer: %s", err)
+		return err
+	}
+
+	ipv4LpmMap, err := b.bpfModule.GetMap("ipv4_lpm_map")
+	if err != nil {
+		logger.Error().Msgf("can't get map: %s", err)
+		return err
+	}
+
+	rb.Poll(300)
+
+	var lpmId uint16 = 1
+
 	go func() {
 		defer wg.Done()
-		logger := log.Logger
-		logger.Info().Msg("Starting user and kernel space eBPF parts.")
-		bpfModule, err := bpf.NewModuleFromFile("task.bpf.o")
-		if err != nil {
-			retErr = fmt.Errorf("can't open module from file: %s", err)
-			return
-		}
-		defer bpfModule.Close()
 
-		logger.Info().Msg("Loading object file")
-		bpfModule.BPFLoadObject()
-
-		prog, err := bpfModule.GetProgram("cgroup_sock_prog")
-		if err != nil {
-			retErr = fmt.Errorf("can't get program: %s", err)
-			return
-		}
-
-		_, err = prog.AttachCgroup("/sys/fs/cgroup")
-		if err != nil {
-			retErr = fmt.Errorf("can't attach kprobe: %s", err)
-			return
-		}
-
-		events := make(chan []byte)
-		rb, err := bpfModule.InitRingBuf("events", events)
-		if err != nil {
-			retErr = fmt.Errorf("can't init ring buffer: %s", err)
-			return
-		}
-
-		ipv4LpmMap, err := bpfModule.GetMap("ipv4_lpm_map")
-		if err != nil {
-			retErr = fmt.Errorf("can't get map: %s", err)
-			return
-		}
-
-		rb.Poll(300)
-
-		var lpmId uint16 = 1
 	loop:
 		for {
 			select {
@@ -110,6 +119,5 @@ func Run(wg *sync.WaitGroup, stop chan struct{}, cidrReqRes <-chan common.CidrRe
 			}
 		}
 	}()
-
-	return retErr
+	return nil
 }

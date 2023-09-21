@@ -2,13 +2,12 @@ package pty
 
 import (
 	"fmt"
-	"github.com/MaciekLeks/ebpf-go-template-sock-addr-own-prompt/pkg/common"
+	"github.com/MaciekLeks/neck/pkg/common"
 	"github.com/charmbracelet/bubbles/cursor"
 	"github.com/charmbracelet/bubbles/table"
 	"github.com/charmbracelet/bubbles/textinput"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
-	"github.com/rs/zerolog/log"
 	"strconv"
 )
 
@@ -67,7 +66,6 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				if cidr.id == msg.LpmVal.Id {
 					cidr.count = msg.LpmVal.Counter
 				}
-				log.Logger.Info().Msgf("Updated cidr:%d with counter:%d", cidr.id, cidr.count)
 			}
 			m.config.SetRows(m.cidrList.TeaRows())
 		}

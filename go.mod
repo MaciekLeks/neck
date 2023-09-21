@@ -1,4 +1,4 @@
-module github.com/MaciekLeks/ebpf-go-template-sock-addr-own-prompt
+module github.com/MaciekLeks/neck
 
 go 1.20
 

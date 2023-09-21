@@ -1,7 +1,7 @@
 package pty
 
 import (
-	"github.com/MaciekLeks/ebpf-go-template-sock-addr-own-prompt/pkg/common"
+	"github.com/MaciekLeks/neck/pkg/common"
 	"github.com/charmbracelet/bubbles/table"
 	"github.com/charmbracelet/bubbles/textinput"
 	"strconv"
