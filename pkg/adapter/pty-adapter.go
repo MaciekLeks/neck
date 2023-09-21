@@ -7,7 +7,7 @@ import (
 	"sync"
 )
 
-// PtyAdapter is a struct that mediates between ebpf and ui (ebpf->ui
+// PtyAdapter is a struct that can talk to pty in the name of ebpf
 type PtyAdapter struct {
 	pty       *tea.Program
 	rawEvents <-chan common.RawEvent
