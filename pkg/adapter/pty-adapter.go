@@ -11,10 +11,10 @@ import (
 type PtyAdapter struct {
 	pty       *tea.Program
 	rawEvents <-chan common.RawEvent
-	stop      chan struct{}
+	stop      <-chan struct{}
 }
 
-func NewPtyAdapter(stop chan struct{}, p *tea.Program, rawEvents <-chan common.RawEvent) *PtyAdapter {
+func NewPtyAdapter(stop <-chan struct{}, p *tea.Program, rawEvents <-chan common.RawEvent) *PtyAdapter {
 	return &PtyAdapter{
 		pty:       p,
 		rawEvents: rawEvents,

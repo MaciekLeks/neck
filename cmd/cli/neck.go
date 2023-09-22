@@ -12,21 +12,30 @@ import (
 	"sync"
 )
 
-func main() {
-	file, err := os.Create("log.txt")
+func initLogger(logFile string) (*os.File, error) {
+	file, err := os.Create(logFile)
 	if err != nil {
-		fmt.Println("error creating log file:", err)
-		os.Exit(1)
+		return nil, fmt.Errorf("error creating log file: %w", err)
+	}
+
+	os.Stderr = file //mostly for libbpf
+
+	log.Logger = log.Output(zerolog.ConsoleWriter{Out: file, NoColor: true})
+	return file, nil
+}
+
+func main() {
+	file, err := initLogger("log.txt")
+	if err != nil {
+		panic(err)
 	}
 	defer file.Close()
-	os.Stderr = file //for libbpf
-	log.Logger = log.Output(zerolog.ConsoleWriter{Out: file, NoColor: true})
 
 	wg := sync.WaitGroup{}
 	cidrs := make(chan common.CidrRequestResponse)
 	defer close(cidrs)
 
-	rawEvents := make(chan common.RawEvent)
+	rawEvents := make(chan common.RawEvent, 10)
 	defer close(rawEvents)
 
 	stop := make(chan struct{}) //closing by pty

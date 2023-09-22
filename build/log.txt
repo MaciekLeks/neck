@@ -1,0 +1,55 @@
+libbpf: loading neck.bpf.o
+libbpf: elf: section(3) cgroup/connect4, size 1472, link 0, flags 6, type=1
+libbpf: sec 'cgroup/connect4': found program 'cgroup_sock_prog' at insn offset 0 (0 bytes), code size 184 insns (1472 bytes)
+libbpf: elf: section(4) .relcgroup/connect4, size 128, link 28, flags 40, type=9
+libbpf: elf: section(5) .maps, size 56, link 0, flags 3, type=1
+libbpf: elf: section(6) .rodata, size 128, link 0, flags 2, type=1
+libbpf: elf: section(7) license, size 13, link 0, flags 3, type=1
+libbpf: license of neck.bpf.o is Dual BSD/GPL
+libbpf: elf: section(18) .BTF, size 2794, link 0, flags 0, type=1
+libbpf: elf: section(20) .BTF.ext, size 636, link 0, flags 0, type=1
+libbpf: elf: section(28) .symtab, size 624, link 1, flags 0, type=2
+libbpf: looking for externs among 26 symbols...
+libbpf: collected 0 externs total
+libbpf: map 'events': at sec_idx 5, offset 0.
+libbpf: map 'events': found type = 27.
+libbpf: map 'events': found max_entries = 16777216.
+libbpf: map 'ipv4_lpm_map': at sec_idx 5, offset 16.
+libbpf: map 'ipv4_lpm_map': found type = 11.
+libbpf: map 'ipv4_lpm_map': found key [12], sz = 8.
+libbpf: map 'ipv4_lpm_map': found value [16], sz = 10.
+libbpf: map 'ipv4_lpm_map': found max_entries = 255.
+libbpf: map 'ipv4_lpm_map': found map_flags = 0x1.
+libbpf: map 'neck.rodata' (global data): at sec_idx 6, offset 0, flags 80.
+libbpf: map 2 is "neck.rodata"
+libbpf: sec '.relcgroup/connect4': collecting relocation for section(3) 'cgroup/connect4'
+libbpf: sec '.relcgroup/connect4': relo #0: insn #2 against 'events'
+libbpf: prog 'cgroup_sock_prog': found map 0 (events, sec 5, off 0) for insn #2
+libbpf: sec '.relcgroup/connect4': relo #1: insn #20 against '.rodata'
+libbpf: prog 'cgroup_sock_prog': found data map 2 (neck.rodata, sec 6, off 0) for insn 20
+libbpf: sec '.relcgroup/connect4': relo #2: insn #31 against 'ipv4_lpm_map'
+libbpf: prog 'cgroup_sock_prog': found map 1 (ipv4_lpm_map, sec 5, off 16) for insn #31
+libbpf: sec '.relcgroup/connect4': relo #3: insn #35 against '.rodata'
+libbpf: prog 'cgroup_sock_prog': found data map 2 (neck.rodata, sec 6, off 0) for insn 35
+libbpf: sec '.relcgroup/connect4': relo #4: insn #129 against 'ipv4_lpm_map'
+libbpf: prog 'cgroup_sock_prog': found map 1 (ipv4_lpm_map, sec 5, off 16) for insn #129
+libbpf: sec '.relcgroup/connect4': relo #5: insn #134 against '.rodata'
+libbpf: prog 'cgroup_sock_prog': found data map 2 (neck.rodata, sec 6, off 0) for insn 134
+libbpf: sec '.relcgroup/connect4': relo #6: insn #147 against '.rodata'
+libbpf: prog 'cgroup_sock_prog': found data map 2 (neck.rodata, sec 6, off 0) for insn 147
+libbpf: sec '.relcgroup/connect4': relo #7: insn #177 against '.rodata'
+libbpf: prog 'cgroup_sock_prog': found data map 2 (neck.rodata, sec 6, off 0) for insn 177
+8:03AM INF Loading object file
+libbpf: loading kernel BTF '/sys/kernel/btf/vmlinux': 0
+libbpf: map 'events': created successfully, fd=9
+libbpf: map 'ipv4_lpm_map': created successfully, fd=10
+libbpf: map 'neck.rodata': created successfully, fd=11
+libbpf: sec 'cgroup/connect4': found 1 CO-RE relocations
+libbpf: CO-RE relocating [28] struct bpf_sock_addr: found target candidate [43981] struct bpf_sock_addr in [vmlinux]
+libbpf: prog 'cgroup_sock_prog': relo #0: <byte_off> [28] struct bpf_sock_addr.user_ip4 (0:1 @ offset 4)
+libbpf: prog 'cgroup_sock_prog': relo #0: matching candidate #0 <byte_off> [43981] struct bpf_sock_addr.user_ip4 (0:1 @ offset 4)
+libbpf: prog 'cgroup_sock_prog': relo #0: patched insn #19 (LDX/ST/STX) off 4 -> 4
+8:03AM INF Stopping pty-adapter.
+8:03AM INF Stopping user space eBPF part.
+8:03AM INF Waiting all goroutines to finish...
+8:03AM INF All goroutines finished.
