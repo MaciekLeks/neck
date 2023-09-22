@@ -147,18 +147,12 @@ func (m *model) View() string {
 	}
 	var s string
 	model := m.currentFocusedModel()
-	if m.active == cidrView {
-		s += lipgloss.JoinVertical(lipgloss.Top, m.cidr.View())
-	} else {
-		s += lipgloss.JoinVertical(lipgloss.Top, m.cidr.View())
-	}
-	s += "\n"
 	if m.active == rawView {
-		s += lipgloss.JoinHorizontal(lipgloss.Top, focusedModelStyle.Render(fmt.Sprintf("%4s", m.raw.View())), modelStyle.Render(m.config.View()))
+		s += lipgloss.JoinVertical(lipgloss.Top, m.cidr.View(), lipgloss.JoinHorizontal(lipgloss.Top, focusedModelStyle.Render(fmt.Sprintf("%4s", m.raw.View())), modelStyle.Render(m.config.View())))
 	} else if m.active == configView {
-		s += lipgloss.JoinHorizontal(lipgloss.Top, modelStyle.Render(fmt.Sprintf("%4s", m.raw.View())), focusedModelStyle.Render(m.config.View()))
+		s += lipgloss.JoinVertical(lipgloss.Top, m.cidr.View(), lipgloss.JoinHorizontal(lipgloss.Top, modelStyle.Render(fmt.Sprintf("%4s", m.raw.View())), focusedModelStyle.Render(m.config.View())))
 	} else {
-		s += lipgloss.JoinHorizontal(lipgloss.Top, modelStyle.Render(fmt.Sprintf("%4s", m.raw.View())), modelStyle.Render(m.config.View()))
+		s += lipgloss.JoinVertical(lipgloss.Top, m.cidr.View(), lipgloss.JoinHorizontal(lipgloss.Top, modelStyle.Render(fmt.Sprintf("%4s", m.raw.View())), modelStyle.Render(m.config.View())))
 	}
 	if m.active == configView {
 		s += helpStyle.Render(fmt.Sprintf("\ntab: focus next • ctrl-n: new %s • ctrl-c: exit\n", model))
@@ -167,6 +161,7 @@ func (m *model) View() string {
 	} else {
 		s += helpStyle.Render(fmt.Sprintf("\ntab: focus next • enter: cidr • ctrl-c: exit\n"))
 	}
+
 	return s
 }
 

@@ -39,7 +39,7 @@ libbpf: sec '.relcgroup/connect4': relo #6: insn #147 against '.rodata'
 libbpf: prog 'cgroup_sock_prog': found data map 2 (neck.rodata, sec 6, off 0) for insn 147
 libbpf: sec '.relcgroup/connect4': relo #7: insn #177 against '.rodata'
 libbpf: prog 'cgroup_sock_prog': found data map 2 (neck.rodata, sec 6, off 0) for insn 177
-8:03AM INF Loading object file
+8:09AM INF Loading object file
 libbpf: loading kernel BTF '/sys/kernel/btf/vmlinux': 0
 libbpf: map 'events': created successfully, fd=9
 libbpf: map 'ipv4_lpm_map': created successfully, fd=10
@@ -49,7 +49,3 @@ libbpf: CO-RE relocating [28] struct bpf_sock_addr: found target candidate [4398
 libbpf: prog 'cgroup_sock_prog': relo #0: <byte_off> [28] struct bpf_sock_addr.user_ip4 (0:1 @ offset 4)
 libbpf: prog 'cgroup_sock_prog': relo #0: matching candidate #0 <byte_off> [43981] struct bpf_sock_addr.user_ip4 (0:1 @ offset 4)
 libbpf: prog 'cgroup_sock_prog': relo #0: patched insn #19 (LDX/ST/STX) off 4 -> 4
-8:03AM INF Stopping pty-adapter.
-8:03AM INF Stopping user space eBPF part.
-8:03AM INF Waiting all goroutines to finish...
-8:03AM INF All goroutines finished.
